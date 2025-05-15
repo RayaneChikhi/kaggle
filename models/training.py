@@ -147,7 +147,7 @@ def predict_and_save(model, test_dataset, batch_size=8):
     for batch in progress_bar:
         # Move to device
         inputs = {k: v.to(device) if isinstance(v, torch.Tensor) else v 
-                    for k, v in batch.items() if k != "target"}
+                    for k, v in batch.items() if k not in ["target","id"]}
         outputs = model(inputs).view(-1).cpu()  # Move to CPU immediately
         predictions.extend(outputs.detach().numpy())  # Store as numpy array
         ids.extend(batch["id"])
